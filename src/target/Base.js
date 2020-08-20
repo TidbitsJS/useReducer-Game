@@ -5,24 +5,42 @@ import { InputGroup, FormControl,
 import 'target/game.css'
 import Notice from 'target/Notice'
 
-const initialState = [
-    'Biblo Baggins',
-    'Harry Potter',
-    'Pippin Took',
-    'Thorin Oakenshield'
-]
+const initialState = {
+    items: [{
+        hp: 100,
+        name: 'Bilbo Baggins'
+    }, {
+        hp: 80,
+        name: 'Harry Potter'
+    }, {
+        hp: 60,
+        name: 'Pippin Took'
+    }, {
+        hp: 50,
+        name: 'Thorin Oakenshield'
+    }]
+};
+
 
 const reducer = (state, action) => {
     switch (action.type) {
         case 'add':
-            return [
-                ...state, action.payload
-            ]
+            let sethp = Math.floor((Math.random() * 100 ) + 1)
+            let newItems = JSON.parse(JSON.stringify(state.items))
+            newItems.push({ name: action.payload, hp: sethp })
+            return {...state, items: newItems}        
         
-        case 'kill':            
-            let newState = state.filter((_, index) => index !== action.payload)
-            console.log(newState)
-            return newState
+        case 'kill':
+            let randomHp =  Math.floor((Math.random() * 100) + 1)
+            console.log("randomHp, value",randomHp, action.value)
+            if(randomHp >= action.value) {
+                let newItemsK = (state.items).filter((_, index) => (index) !== action.payload)
+                action.letter('Death has been Summoned')
+                return {...state, items: newItemsK}
+            } else {
+                action.letter('You Shall not Pass')
+                return state
+            }          
 
         default:
             return state
@@ -32,11 +50,13 @@ const reducer = (state, action) => {
 
 const Base = () => {
     const [person, setPerson] = useState('')
+    const [message, setMessage] = useState('You Shall not Pass')
     const modal = {} 
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const life = (person) => {
         console.log(person)
+        if(person === '') return
         dispatch({
             type:'add',
             payload: person
@@ -44,8 +64,12 @@ const Base = () => {
         setPerson('')
     }
 
-    const death = (index) => {
-        dispatch({type: 'kill', payload: index})
+    const death = (power, index, setMessage) => {
+        dispatch({type: 'kill', 
+            payload: index, 
+            value: power,
+            letter: setMessage})
+
         if (modal.handleShow) {
             modal.handleShow()
         }
@@ -68,15 +92,18 @@ const Base = () => {
                 <Button className="btns" onClick={() => life(person)} >Add</Button>
             </div>
 
-            <Card style={{width: 500}}>
-                <Card.Header className="bg-success">Living Beings</Card.Header>
+            <Card style={{width: 500}} className="cards">
+                <Card.Header className="bg-success" style={{fontSize: 21}}>
+                    Living the Dreams 
+                    <i className="fa fa-heart" style={{color:'red', marginLeft: 10}}></i>
+                </Card.Header>
                 <ListGroup variant="flush">
-                 {state.map( (human, index) => {
+                 {(state.items).map( (human, index) => {
                      return <ListGroup.Item 
-                     key={index+human}
+                     key={index}
                      style={{textAlign:'center'}}> 
                    
-                   { human } 
+                   { human.name } 
 
                      <OverlayTrigger
                        placement='left'
@@ -88,7 +115,7 @@ const Base = () => {
                            <Button
                              variant="danger"
                              style={{marginLeft:10}}
-                             onClick={() => death(index)}>
+                             onClick={() => death(human.hp, index, setMessage)}>
                                  <i className="fa fa-heartbeat" />
                            </Button>
                      </OverlayTrigger>
@@ -97,7 +124,7 @@ const Base = () => {
                    })}
                 </ListGroup>
             </Card>
-                <Notice modal={modal}/>
+                <Notice modal={modal} message={message}/>
         </div>
     )
 }
