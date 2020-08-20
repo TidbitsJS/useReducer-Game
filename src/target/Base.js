@@ -1,25 +1,54 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { InputGroup, FormControl, 
          Card, ListGroup, Button,
         OverlayTrigger, Tooltip } from 'react-bootstrap'
 import 'target/game.css'
+import Notice from 'target/Notice'
+
+const initialState = [
+    'Biblo Baggins',
+    'Harry Potter',
+    'Pippin Took',
+    'Thorin Oakenshield'
+]
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'add':
+            return [
+                ...state, action.payload
+            ]
+        
+        case 'kill':            
+            let newState = state.filter((_, index) => index !== action.payload)
+            console.log(newState)
+            return newState
+
+        default:
+            return state
+    }
+}
 
 
 const Base = () => {
     const [person, setPerson] = useState('')
-    const [people, setPeople] = useState([ 'Bilbo Baggins','Thorin Oakenshield', 'Pippin Took','Samwise Gamgee'])
+    const modal = {} 
+    const [state, dispatch] = useReducer(reducer, initialState)
 
-    const addPerson = () => {
-        console.log(`Hello ${person}`);
-        people.push(person)
-        console.log(people)
+    const life = (person) => {
+        console.log(person)
+        dispatch({
+            type:'add',
+            payload: person
+        })
         setPerson('')
     }
 
-    const death = (key) => {
-        people.splice(key,1)
-        console.log(people)
-        setPeople(people)
+    const death = (index) => {
+        dispatch({type: 'kill', payload: index})
+        if (modal.handleShow) {
+            modal.handleShow()
+        }
     }
 
     return (
@@ -36,40 +65,39 @@ const Base = () => {
                         aria-describedby="basic-addon2"
                     />
                 </InputGroup>
-                <Button className="btns" onClick={() => addPerson()} >Add</Button>
+                <Button className="btns" onClick={() => life(person)} >Add</Button>
             </div>
 
-            <Card style={{width: 400}}>
-                <Card.Header className="bg-success">Living</Card.Header>
+            <Card style={{width: 500}}>
+                <Card.Header className="bg-success">Living Beings</Card.Header>
                 <ListGroup variant="flush">
-                   { people.map((human, index) => {
-                       console.log("Render",people)
-                       return <ListGroup.Item 
-                         key={index+human}
-                         style={{textAlign:'center'}}> 
-                       
-                       { human } 
+                 {state.map( (human, index) => {
+                     return <ListGroup.Item 
+                     key={index+human}
+                     style={{textAlign:'center'}}> 
+                   
+                   { human } 
 
-                         <OverlayTrigger
-                           placement='left'
-                           overlay={
-                               <Tooltip id='tooltip-left'>
-                                  <strong>Kill</strong>  
-                               </Tooltip>
-                           }>
-                               <Button
-                                 variant="danger"
-                                 style={{marginLeft:10}}
-                                 onClick={() => death(index)}>
-                                     <i className="fa fa-heartbeat" />
-                               </Button>
-                         </OverlayTrigger>
+                     <OverlayTrigger
+                       placement='left'
+                       overlay={
+                           <Tooltip id='tooltip-left'>
+                              <strong>Kill</strong>  
+                           </Tooltip>
+                       }>
+                           <Button
+                             variant="danger"
+                             style={{marginLeft:10}}
+                             onClick={() => death(index)}>
+                                 <i className="fa fa-heartbeat" />
+                           </Button>
+                     </OverlayTrigger>
+                     </ListGroup.Item>
 
-                       </ListGroup.Item>
-                    }) }
+                   })}
                 </ListGroup>
             </Card>
-
+                <Notice modal={modal}/>
         </div>
     )
 }
