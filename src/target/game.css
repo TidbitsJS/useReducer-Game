@@ -1,0 +1,29 @@
+.base {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+    flex-direction: column;
+}
+
+.btns {
+    margin: 1rem 7rem;
+    margin-top: 0.2rem;
+}
+
+.tooltips {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.btn-danger {
+    font-size: 10px;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
