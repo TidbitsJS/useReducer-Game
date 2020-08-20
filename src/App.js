@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Base from 'target/Base'
+import Base from 'deathGame/Base'
 
 class App extends Component {
 

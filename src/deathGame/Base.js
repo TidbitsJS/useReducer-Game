@@ -2,8 +2,8 @@ import React, { useState, useReducer } from 'react'
 import { InputGroup, FormControl, 
          Card, ListGroup, Button,
         OverlayTrigger, Tooltip } from 'react-bootstrap'
-import 'target/game.css'
-import Notice from 'target/Notice'
+import 'deathGame/game.css'
+import Notice from 'deathGame/Notice'
 
 const initialState = {
     items: [{
