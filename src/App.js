@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import Base from 'deathGame/Base'
+import Example from 'files/Example'
+import 'App.css'
 
 class App extends Component {
 
   render() {
     return (
       <div className="App">
-        <Base />
+        <Example />
       </div>
     )
   }

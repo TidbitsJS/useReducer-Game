@@ -196,3 +196,18 @@ const [state, dispatch] = userReducer(reducer, initialCount, init)
 
 ```
 
+#
+
+#### useRef() Hook
+
+The `useRef()` hook allows you to create a persistent ref to DOM node, or really to any value.
+
+Calling `useRef` creates an empty ref object by default, or you can initialize it to some other value by passing an argument
+
+The object it returns will always have a `current` property, and we access the value inside the ref with `inputRef.current` 
+
+Similar to `React.createRef()`, by passing a ref object in as the `ref` prop on a DOM element, React will automatically set that ref object's `current` to refer to the DOM element after it is rendered.
+
+`useRef` can be used to create generic instance variables, just like you can do with a React class component with `this.whatever = value`. The only thing is, writing to it counts as a "side effect" so you can't change it during a render - you should only change a ref inside the body of a `useEffect` hook
+
+> Note - Redux provides a global store where you can keep app data centralized. useReducer is localized to a specific component
