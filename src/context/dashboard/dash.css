@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.dashboard {
+    display: flex;
+    height: 100vh;
+}
+
+.sideNav {
+    background-color: #453545;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 100vh;
+    left: 0;
+    padding-left: 30px;
+}
+
+.sideNav > .title {
+    padding: 20px;
+    padding-left: 0;
+    margin: 0;
+}
+
+.sideNav > * {
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.dashboardContent {
+    flex: 4;
+}
+
+.topNav {
+    border-bottom: 2px solid #000;
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 21px;
+}
+
+.topNav .avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #453545;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.pages {
+    padding: 20px;
+}
+
+.profile form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+}
+
+input {
+    border-radius: 5px;
+    border: thin solid black;
+    margin-top: 2px;
+    padding: 10px;
+    font-size: 20px;
+}
+

@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import Example from 'files/Example'
 import 'App.css'
+import Dashboard from 'context/dashboard/Dash'
 
 class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Example />
-      </div>
+      <Dashboard />
     )
   }
 }
