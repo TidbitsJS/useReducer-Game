@@ -1,14 +1,11 @@
-import React, { Component } from 'react'
-import 'App.css'
-import Dashboard from 'context/dashboard/Dash'
+import React, { Component } from "react";
+import "App.css";
+import Base from "./deathGame/Base";
 
 class App extends Component {
-
   render() {
-    return (
-      <Dashboard />
-    )
+    return <Base />;
   }
 }
 
-export default App
+export default App;
